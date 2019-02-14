@@ -34,7 +34,7 @@ public class NationServerImpl implements NationService {
         log.info("Before creating the list");
         List<Nation> nations = repository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(Nation::getDgp))
+                .sorted(Comparator.comparing(Nation::getGdp))
                 .collect(Collectors.toList());
         log.info("Nations List Size: " + nations.size());
         return nations;

@@ -15,13 +15,13 @@ public class Nation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String country;
-    private Long dgp;
+    private Long gdp;
 
     public Nation() {
     }
 
-    public Nation(String country, Long dgp) {
+    public Nation(String country, Long gdp) {
         this.country = country;
-        this.dgp = dgp;
+        this.gdp = gdp;
     }
 }
