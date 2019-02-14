@@ -9,5 +9,6 @@ import java.util.List;
 public interface NationService {
     List<Nation> getAllSortedByName();
     List<Nation> getAllSortedByGDP();
+    List<Nation> addAllNations(List<Nation> nations);
     ObjectNode getTotal();
 }

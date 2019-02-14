@@ -39,6 +39,11 @@ public class NationServerImpl  implements NationService{
     }
 
     @Override
+    public List<Nation> addAllNations(List<Nation> nations) {
+        return repository.saveAll(nations);
+    }
+
+    @Override
     public ObjectNode getTotal() {
         return null;
     }
