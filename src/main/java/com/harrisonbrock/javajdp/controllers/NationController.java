@@ -21,8 +21,13 @@ public class NationController {
     }
 
     @GetMapping("/names")
-    public List<Nation> getAllSortedNationsByName(){
+    public List<Nation> getAllNationsSortedByName(){
         return nationService.getAllSortedByName();
+    }
+
+    @GetMapping("/economy")
+    public List<Nation> getAllNationSoredByGDP() {
+        return nationService.getAllSortedByGDP();
     }
 
     @PostMapping("/gdp")

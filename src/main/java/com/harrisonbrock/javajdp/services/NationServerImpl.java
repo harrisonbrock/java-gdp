@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class NationServerImpl  implements NationService{
+public class NationServerImpl implements NationService {
 
     private final NationRepository repository;
 
@@ -31,11 +31,13 @@ public class NationServerImpl  implements NationService{
 
     @Override
     public List<Nation> getAllSortedByGDP() {
-        return repository
-                .findAll()
+        log.info("Before creating the list");
+        List<Nation> nations = repository.findAll()
                 .stream()
-                .sorted(Comparator.comparing(Nation::getDpg).reversed())
+                .sorted(Comparator.comparing(Nation::getDgp))
                 .collect(Collectors.toList());
+        log.info("Nations List Size: " + nations.size());
+        return nations;
     }
 
     @Override
