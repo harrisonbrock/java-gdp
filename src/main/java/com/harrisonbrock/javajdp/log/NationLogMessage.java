@@ -1,10 +1,13 @@
 package com.harrisonbrock.javajdp.log;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Data
 public class NationLogMessage implements Serializable {
     private final String text;
     private final String formatteDate;
@@ -16,4 +19,5 @@ public class NationLogMessage implements Serializable {
         DateFormat format = new SimpleDateFormat(strDateFormat);
         formatteDate = format.format(date);
     }
+
 }

@@ -1,9 +1,13 @@
 package com.harrisonbrock.javajdp.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.harrisonbrock.javajdp.JavaJdpApplication;
 import com.harrisonbrock.javajdp.domain.Nation;
+import com.harrisonbrock.javajdp.log.NationLogMessage;
 import com.harrisonbrock.javajdp.repositeroies.NationRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Comparator;
@@ -46,7 +50,29 @@ public class NationServerImpl implements NationService {
     }
 
     @Override
+    public Nation findNationByName(String name) {
+        return repository.findByCountry(name);
+    }
+
+    @Override
     public ObjectNode getTotal() {
-        return null;
+        List<Nation> nations = repository.findAll();
+        long total = 0;
+        for (Nation nation : nations) {
+            total = total + nation.getGdp();
+        }
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode totalGdp = mapper.createObjectNode();
+        totalGdp.put("id", 0);
+        totalGdp.put("nation", "gdp");
+        totalGdp.put("totalGDP", total);
+        return totalGdp;
+    }
+
+    @Override
+    public void sendToQueue(RabbitTemplate rabbitTemplate, String country) {
+        log.info("Sending message");
+        NationLogMessage message = new NationLogMessage("Logged User Looked Up Country: " + country);
+        rabbitTemplate.convertAndSend(JavaJdpApplication.QUEUE_NAME, message.getText());
     }
 }

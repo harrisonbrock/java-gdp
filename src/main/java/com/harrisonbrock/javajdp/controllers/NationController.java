@@ -1,12 +1,10 @@
 package com.harrisonbrock.javajdp.controllers;
 
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.harrisonbrock.javajdp.domain.Nation;
 import com.harrisonbrock.javajdp.services.NationService;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,6 +26,18 @@ public class NationController {
     @GetMapping("/economy")
     public List<Nation> getAllNationSoredByGDP() {
         return nationService.getAllSortedByGDP();
+    }
+
+    @GetMapping("/total")
+    public ObjectNode getTotal() {
+        return nationService.getTotal();
+    }
+
+    @GetMapping("/gdp/{name}")
+    public Nation getNationByName(@PathVariable String name) {
+        Nation nation = nationService.findNationByName(name);
+        nationService.sendToQueue(rabbitTemplate, name);
+        return nation;
     }
 
     @PostMapping("/gdp")
